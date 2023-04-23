@@ -6,15 +6,9 @@ node {
     stage('Build') {
         sh 'npm run build'
     }
-    stage('Test') {
-        sh 'npm test'
-    }
-    stage('Deploy') {
-        sh 'scp -r ./* ec2-user@18.206.177.107:/home/ec2-user/'
+
+    stage('build docker image') {
+        sh 'docker build -t nodeapp .'
     } 
-    stage('Restart server') {
-        sshagent(['ec2-user@18.206.177.107']) {
-            sh 'sudo systemctl restart nodeapp.service'
-        } 
-    }
+    
 }
