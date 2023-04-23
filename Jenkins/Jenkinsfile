@@ -1,6 +1,4 @@
-pipeline {
-  agent { node { label 'jenkins_slave' } }
-  stages {
+node {
     stage('Checkout') {
         checkout scm
     }
@@ -12,6 +10,13 @@ pipeline {
     }
     stage('Test') {
         sh 'npm test'
+    }
+    stage('Deploy') {
+        sh 'scp -r ./* ec2-user@18.206.177.107:/home/ec2-user/nodeapp'
     } 
-  }
+    stage('Restart server') {
+        sshagent(['ec2-user@18.206.177.107']) {
+            sh 'sudo systemctl restart nodeapp.service'
+        } 
+    }
 }
