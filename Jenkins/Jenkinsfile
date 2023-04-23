@@ -1,7 +1,6 @@
 pipeline {
     agent any
     stages {
-        
         stage('Build and Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhubaccount', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
@@ -13,13 +12,14 @@ pipeline {
                     sh "docker push mohamedsorour/jenkins_node"
                 }
             }
+            post {
+                success {
+                    slackSend channel: '#jenkins', color: 'good', message: "Docker image pushed successfully"
+                }
+                failure {
+                    slackSend channel: '#jenkins', color: 'danger', message: "Docker image failed to push"
+                }
+            }
         }
-        post {
-            success {
-                slackSend channel: '#jenkins', color: 'good', message: "Docker image pushed successfully"
-            }
-            failure {
-                slackSend channel: '#jenkins', color: 'danger', message: "Docker image failed to push"
-            }
     }
-}}
+}
