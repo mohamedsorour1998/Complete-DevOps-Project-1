@@ -22,4 +22,4 @@ pipeline {
                 slackSend channel: '#jenkins', color: 'danger', message: "Docker image failed to push"
             }
     }
-}
+}}
