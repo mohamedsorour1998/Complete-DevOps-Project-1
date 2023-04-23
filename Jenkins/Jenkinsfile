@@ -8,11 +8,18 @@ pipeline {
                     // Login to Docker Hub
                     sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
                     // Build Docker image
-                    sh "sudo docker build -t mohamedsorour/jenkins_node ."
+                    sh "docker build -t mohamedsorour/jenkins_node ."
                     // Push Docker image to Docker Hub
-                    sh "sudo docker push mohamedsorour/jenkins_node"
+                    sh "docker push mohamedsorour/jenkins_node"
                 }
             }
         }
+        post {
+            success {
+                slackSend channel: '#jenkins', color: 'good', message: "Docker image pushed successfully"
+            }
+            failure {
+                slackSend channel: '#jenkins', color: 'danger', message: "Docker image failed to push"
+            }
     }
 }

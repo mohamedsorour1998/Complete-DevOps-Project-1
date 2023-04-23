@@ -57,6 +57,12 @@
         key: "{{ public_key }}"
         state: present
 
+    - name: Add public key to root user
+      authorized_key:
+        user: "root"
+        key: "{{ public_key }}"
+        state: present
+
     - name: Create Jenkins workspace directory
       file:
         path: "{{ jenkins_home }}/workspace"
