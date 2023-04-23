@@ -23,7 +23,7 @@ resource "aws_instance" "bastion" {
 
 }
 resource "aws_instance" "app" {
-  ami                    = "ami-02396cdd13e9a1257" # Amazon Linux 3
+  ami                    = "ami-069aabeee6f53e7bf" # Amazon Linux 2
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.private.id
   key_name               = aws_key_pair.ssh.key_name

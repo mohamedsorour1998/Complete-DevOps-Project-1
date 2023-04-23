@@ -1,10 +1,8 @@
-- name: Configure Jenkins slave
-  hosts: app
-  become: yes
-  vars:
-    jenkins_user: jenkins
-    jenkins_home: /home/{{ jenkins_user }}
-    public_key: "{{ lookup('file', './ssh.pub') }}"
+---
+- name: Install Jenkins on Amazon Linux EC2 instance
+  hosts: bastion
+  remote_user: ec2-user
+  become: true
   tasks:
     - name: Update all packages
       yum:
@@ -31,22 +29,22 @@
       pip:
         name: docker
         state: present
+        extra_args: "--ignore-installed"
 
     - name: Pull Jenkins Docker image
       docker_image:
-        name: jenkins/ssh-agent:alpine
+        name: jenkins/jenkins:lts
         source: pull
 
     - name: Run Jenkins container
       docker_container:
-        name: jenkins-agent
-        image: jenkins/ssh-agent:alpine
+        name: jenkins
+        image: jenkins/jenkins:lts
         state: started
         user: root
         detach: true
         ports:
-          - "23:22"
-        env:
-          JENKINS_AGENT_SSH_PUBKEY: "{{public_key}}"
+          - "8080:8080"
+          - "50000:50000"
         volumes:
           - /var/jenkins_home:/var/jenkins_home
