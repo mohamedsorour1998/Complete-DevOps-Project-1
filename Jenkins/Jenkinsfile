@@ -1,14 +1,18 @@
-node {
-    stage('Checkout') {
-        checkout scm
+pipeline {
+    agent any
+    stages {
+        
+        stage('Build and Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhubaccount', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
+                    // Login to Docker Hub
+                    sh "docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}"
+                    // Build Docker image
+                    sh "sudo docker build -t mohamedsorour/jenkins_node ."
+                    // Push Docker image to Docker Hub
+                    sh "sudo docker push mohamedsorour/jenkins_node"
+                }
+            }
+        }
     }
-
-    stage('Build') {
-        sh 'npm run build'
-    }
-
-    stage('build docker image') {
-        sh 'docker build -t nodeapp .'
-    } 
-    
 }

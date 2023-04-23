@@ -32,25 +32,43 @@
         name: docker
         state: present
 
-    - name: Pull Jenkins Docker image
-      docker_image:
-        name: jenkins/ssh-agent:alpine
-        source: pull
+    - name: Install Java
+      yum:
+        name: java-11-amazon-corretto
+        state: present
 
-    - name: Run Jenkins container
-      docker_container:
-        name: jenkins-agent
-        image: jenkins/ssh-agent:alpine
-        state: started
-        user: root
-        detach: true
-        ports:
-          - "23:22"
-        env:
-          JENKINS_AGENT_SSH_PUBKEY: "{{public_key}}"
-        volumes:
-          - /var/jenkins_home:/var/jenkins_home
-    - name: install npm and nodejs in the jenkins-agent container
-      docker_container:
-        name: jenkins-agent
-        command: /bin/sh -c "sudo yum install -y nodejs npm"
+    - name: Install Jenkins slave required packages
+      yum:
+        name:
+          - git
+          - wget
+        state: present
+
+    - name: Create Jenkins user
+      user:
+        name: "{{ jenkins_user }}"
+        home: "{{ jenkins_home }}"
+        shell: /bin/bash
+        state: present
+
+    - name: Add public key to Jenkins user
+      authorized_key:
+        user: "{{ jenkins_user }}"
+        key: "{{ public_key }}"
+        state: present
+
+    - name: Create Jenkins workspace directory
+      file:
+        path: "{{ jenkins_home }}/workspace"
+        state: directory
+        owner: "{{ jenkins_user }}"
+        group: "{{ jenkins_user }}"
+        mode: 0755
+
+    - name: Install Jenkins slave
+      become: true
+      shell: curl -L https://updates.jenkins.io/download/war/2.263/slave.jar -o slave.jar && chmod 755 slave.jar
+
+    - name: Start Jenkins slave
+      become: true
+      shell: nohup java -jar slave.jar >/dev/null 2>&1 &
