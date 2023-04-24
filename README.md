@@ -2,6 +2,7 @@
 
 ## Introduction
 This guide walks through creating an infrastructure pipeline to deploy a Node.js application using Terraform, Jenkins, and Ansible. The application will be hosted on an EC2 instance within a private VPC and exposed on port 3000 via an Application Load Balancer.
+![Screenshot 2023-04-24 180514](https://user-images.githubusercontent.com/110028481/234053493-c44823c2-c27e-4455-900c-0215f874409a.png)
 
 ## Prerequisites 
 - AWS account with appropriate permissions
