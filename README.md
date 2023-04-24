@@ -1,4 +1,4 @@
-#Complete DevOps Project 1: Infrastructure Pipeline for Node.js Application
+###Complete DevOps Project 1: Infrastructure Pipeline for Node.js Application
 
 ## Introduction
 This guide walks through creating an infrastructure pipeline to deploy a Node.js application using Terraform, Jenkins, and Ansible. The application will be hosted on an EC2 instance within a private VPC and exposed on port 80 via an Application Load Balancer.
