@@ -27,6 +27,7 @@ Also create other infrastructure files,This includes:
 
 ### 2. Configure Jenkins to use the private subnet and bastion host
 Create an SSH config file `~/.ssh/config` to proxy into your private subnet through the bastion host.
+![Screenshot 2023-04-24 180106](https://user-images.githubusercontent.com/110028481/234052418-455b7c90-1174-4dfd-8d32-aa3336a96c4c.png)
 
 ### 3. Configure Ansible
 - Create an inventory file `inventory.ini` which will contain the IP address of your bastion host and application server (private subnet)
