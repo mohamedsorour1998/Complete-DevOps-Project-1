@@ -19,11 +19,11 @@ Also create other infrastructure files,This includes:
 
 - A VPC 
 - Private and public subnets, route tables, and internet gateways, and NAT gateway
+- ![Screenshot 2023-04-24 020131](https://user-images.githubusercontent.com/110028481/234050666-ae90832b-96b2-4eae-a271-097b214cafe6.png)
 - Security groups for a bastion host and your application
 - An EC2 instance for the bastion host, which will be used to access your private subnet
 - An EC2 instance for your application server, running Amazon Linux 
 - An Application Load Balancer to expose your application
-![Screenshot 2023-04-24 020131](https://user-images.githubusercontent.com/110028481/234050666-ae90832b-96b2-4eae-a271-097b214cafe6.png)
 
 ### 2. Configure Jenkins to use the private subnet and bastion host
 Create an SSH config file `~/.ssh/config` to proxy into your private subnet through the bastion host.
@@ -37,8 +37,8 @@ Create an SSH config file `~/.ssh/config` to proxy into your private subnet thro
 
 ### 4. Configure the slave in the Jenkins dashboard
 Add a new node in the Jenkins dashboard pointing to your application server.
-![Screenshot 2023-04-23 175118](https://user-images.githubusercontent.com/110028481/234049741-022d75e9-290b-4c3d-9f00-da748c189771.png)
 ![Screenshot 2023-04-23 175221](https://user-images.githubusercontent.com/110028481/234049779-a2ef75f0-a57c-46fe-9368-187bc74673b2.png)
+![Screenshot 2023-04-23 175118](https://user-images.githubusercontent.com/110028481/234049741-022d75e9-290b-4c3d-9f00-da748c189771.png)
 
 ### 5. Create a Jenkins pipeline to deploy your application
 Create a `Jenkinsfile` in your Node.js application repository to:
