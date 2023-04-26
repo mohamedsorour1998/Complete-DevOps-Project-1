@@ -16,7 +16,7 @@ This guide walks through creating an infrastructure pipeline to deploy a Node.js
 
 ## Step by Step Guide
 
-### 1. Set up Terraform to da a bastian host configuration 
+### 1. Set up Terraform to do a bastian host configuration 
 ![Screenshot 2023-04-24 181553](https://user-images.githubusercontent.com/110028481/234056006-39307cbc-065f-4aae-a1ae-e34a60f7f4a3.png)
 Create a `main.tf` file to define your AWS infrastructure. 
 Also create other infrastructure files,
